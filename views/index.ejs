@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie-edge">
+ <title>Shortn</title>
+
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body style="background:linear-gradient(180deg, rgb(169, 216, 236) 0%, rgb(105, 85, 235) 100%); background-repeat:no-repeat; height:100%; margin:0; background-attachment: fixed;">
+    <container>
+        <h1 class="my-2 text-center">Simple Url Shortener</h1>
+    <form action="/shortUrls" class="row g-3" method="POST">
+        <label for="fullUrl" class="visually-hidden">URL</label>
+        <div class="col">
+            <input required type="url" class="form-control mr-2" placeholder="url" name="fullUrl" id="fullUrl"> 
+        </div>
+        <div class="col">
+            <label for="urlName" class="visually-hidden">url Name</label>
+            <input required maxlength="15"type="text" class="form-control mr-2" placeholder="name" name="urlName" id="urlName">
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Shorten</button>
+        </div>
+           
+        
+    </form>
+
+<table style="background-color: oldlace;" class="table table-sm table-striped my-3">
+    <thead>
+        <tr>
+            <th>Link Name</th>
+            <th>Shortened Url</th>
+            <th></th>
+            <th>Redirects</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% url.forEach(url =>{ %>
+            <tr>
+                <td>
+                    <a href="<%= url.full %>"><%= url.name %> </a>
+                </td>
+                <td>
+                    <a href="<%= url.short %>" id="<%= url.short %>"><%= url.short %> </a>
+                </td>
+                <td>
+                    <button class="btn btn-info" onclick="copyText('<%=url.short%>')">Copy</button>
+                </td>
+                <td>
+                    <%= url.redirects %>
+                </td>
+            </tr>
+
+        <% }) %>
+    </tbody>
+</table>
+
+
+
+
+    </container>
+</body>
+
+<script>
+    function copyText(id){
+
+        var text = document.getElementById(id);
+        var clipboard = 'localhost:5000/'+text.innerHTML;
+        navigator.clipboard.writeText(clipboard);
+        alert("copied url to your clipboard!")
+    }
+</script>
+</html> 
